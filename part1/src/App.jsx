@@ -1,6 +1,20 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
+function StatisticLine(props) {
+  const { text, value, unit } = props;
+  return (
+    <p>
+      {text}: {value} {unit}
+    </p>
+  );
+}
+StatisticLine.propTypes = {
+  text: PropTypes.string,
+  value: PropTypes.number,
+  unit: PropTypes.string,
+};
+
 function Statistics(props) {
   const { good, neutral, bad, total } = props;
   if (total === 0) {
@@ -10,12 +24,16 @@ function Statistics(props) {
   return (
     <div>
       <h2>Statistics</h2>
-      <p>good: {good}</p>
-      <p>neutral: {neutral}</p>
-      <p>bad: {bad}</p>
-      <p>all: {total}</p>
-      <p>average: {(good - bad) / total}</p>
-      <p>positive feedback: {(good / total) * 100}%</p>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={total} />
+      <StatisticLine text="average" value={(good - bad) / total} />
+      <StatisticLine
+        text="positive feedback"
+        value={(good / total) * 100}
+        unit="%"
+      />
     </div>
   );
 }
@@ -24,6 +42,15 @@ Statistics.propTypes = {
   neutral: PropTypes.number,
   bad: PropTypes.number,
   total: PropTypes.number,
+};
+
+function Button(props) {
+  const { onClick, label } = props;
+  return <button onClick={onClick}>{label}</button>;
+}
+Button.propTypes = {
+  onClick: PropTypes.func,
+  label: PropTypes.string,
 };
 
 function App() {
@@ -48,9 +75,9 @@ function App() {
   return (
     <div>
       <h1>Give Feedback</h1>
-      <button onClick={handleGood}>good</button>
-      <button onClick={handleNeutral}>neutral</button>
-      <button onClick={handleBad}>bad</button>
+      <Button onClick={handleGood} label="good" />
+      <Button onClick={handleNeutral} label="neutral" />
+      <Button onClick={handleBad} label="bad" />
       <Statistics good={good} bad={bad} neutral={neutral} total={total} />
     </div>
   );
