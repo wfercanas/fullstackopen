@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 function Anecdotes() {
-  const [selected, setSelected] = useState(0);
-
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -14,16 +12,29 @@ function Anecdotes() {
     "The only way to go fast, is to go well.",
   ];
 
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
+
   function handleClick() {
     const index = Math.floor(Math.random() * anecdotes.length);
     setSelected(index);
+  }
+
+  function handleVote() {
+    const newState = [...votes];
+    newState[selected] = newState[selected] + 1;
+    setVotes(newState);
   }
 
   return (
     <div>
       <h1>Anecdotes</h1>
       <p>{anecdotes[selected]}</p>
-      <button onClick={handleClick}>next anecdote</button>
+      <code>Has {votes[selected]} votes</code>
+      <div>
+        <button onClick={handleVote}>vote</button>
+        <button onClick={handleClick}>next anecdote</button>
+      </div>
     </div>
   );
 }
