@@ -4,9 +4,12 @@ import PropTypes from "prop-types";
 function StatisticLine(props) {
   const { text, value, unit } = props;
   return (
-    <p>
-      {text}: {value} {unit}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>
+        {value} {unit}
+      </td>
+    </tr>
   );
 }
 StatisticLine.propTypes = {
@@ -22,19 +25,23 @@ function Statistics(props) {
   }
 
   return (
-    <div>
+    <>
       <h2>Statistics</h2>
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={total} />
-      <StatisticLine text="average" value={(good - bad) / total} />
-      <StatisticLine
-        text="positive feedback"
-        value={(good / total) * 100}
-        unit="%"
-      />
-    </div>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={total} />
+          <StatisticLine text="average" value={(good - bad) / total} />
+          <StatisticLine
+            text="positive feedback"
+            value={(good / total) * 100}
+            unit="%"
+          />
+        </tbody>
+      </table>
+    </>
   );
 }
 Statistics.propTypes = {
@@ -73,13 +80,13 @@ function App() {
   }
 
   return (
-    <div>
+    <>
       <h1>Give Feedback</h1>
       <Button onClick={handleGood} label="good" />
       <Button onClick={handleNeutral} label="neutral" />
       <Button onClick={handleBad} label="bad" />
       <Statistics good={good} bad={bad} neutral={neutral} total={total} />
-    </div>
+    </>
   );
 }
 
