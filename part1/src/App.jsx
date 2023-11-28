@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 
 function Statistics(props) {
   const { good, neutral, bad, total } = props;
+  if (total === 0) {
+    return <p>No feedback given</p>;
+  }
+
   return (
     <div>
       <h2>Statistics</h2>
