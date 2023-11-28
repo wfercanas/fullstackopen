@@ -1,85 +1,32 @@
-import PropTypes from "prop-types";
-
-function Header(props) {
-  return <h1>{props.course}</h1>;
-}
-Header.propTypes = {
-  course: PropTypes.string,
-};
-
-function Part(props) {
-  const { part } = props;
-  return (
-    <p>
-      {part.name} {part.exercises}
-    </p>
-  );
-}
-Part.propTypes = {
-  part: PropTypes.shape({
-    name: PropTypes.string,
-    exercises: PropTypes.number,
-  }),
-};
-
-function Content(props) {
-  const { parts } = props;
-  return (
-    <div>
-      {parts.map((part, index) => (
-        <Part key={index} part={part} />
-      ))}
-    </div>
-  );
-}
-Content.propTypes = {
-  parts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      exercises: PropTypes.number,
-    })
-  ),
-};
-
-function Total(props) {
-  const total = props.parts
-    .map((part) => part.exercises)
-    .reduce((acc, curr) => acc + curr);
-  return <p>Total number of exercises: {total}</p>;
-}
-Total.propTypes = {
-  parts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      exercises: PropTypes.number,
-    })
-  ),
-};
+import { useState } from "react";
 
 function App() {
-  const course = {
-    name: "Half Stack application development",
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10,
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7,
-      },
-      {
-        name: "State of a component",
-        exercises: 14,
-      },
-    ],
-  };
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  function handleGood() {
+    setGood(good + 1);
+  }
+
+  function handleNeutral() {
+    setNeutral(neutral + 1);
+  }
+
+  function handleBad() {
+    setBad(bad + 1);
+  }
 
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <h1>Give Feedback</h1>
+      <button onClick={handleGood}>good</button>
+      <button onClick={handleNeutral}>neutral</button>
+      <button onClick={handleBad}>bad</button>
+      <h2>Statistics</h2>
+      <p>good: {good}</p>
+      <p>neutral: {neutral}</p>
+      <p>bad: {bad}</p>
     </div>
   );
 }
