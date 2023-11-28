@@ -45,7 +45,10 @@ function Anecdotes() {
       </div>
       <h2>Anecdote with most votes</h2>
       {votes[mostVoted] > 0 ? (
-        <p>{anecdotes[mostVoted]}</p>
+        <>
+          <p>{anecdotes[mostVoted]}</p>
+          <p>has {votes[mostVoted]} votes</p>
+        </>
       ) : (
         <code>No votes yet</code>
       )}
