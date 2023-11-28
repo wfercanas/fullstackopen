@@ -5,6 +5,8 @@ function App() {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  let total = good + neutral + bad;
+
   function handleGood() {
     setGood(good + 1);
   }
@@ -27,6 +29,9 @@ function App() {
       <p>good: {good}</p>
       <p>neutral: {neutral}</p>
       <p>bad: {bad}</p>
+      <p>all: {total}</p>
+      <p>average: {(good - bad) / total}</p>
+      <p>positive feedback: {good / total}%</p>
     </div>
   );
 }
