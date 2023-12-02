@@ -13,10 +13,6 @@ function App() {
       .then((response) => setPersons(response.data));
   }, []);
 
-  const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   const [search, setSearch] = useState("");
   function handleSearch(event) {
     setSearch(event.target.value);
@@ -31,6 +27,10 @@ function App() {
   function handleNumberChange(event) {
     setNewNumber(event.target.value);
   }
+
+  const filteredPersons = persons.filter((person) =>
+    person.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
