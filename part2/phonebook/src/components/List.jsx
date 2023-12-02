@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
 
 function List(props) {
-  const { filteredPersons } = props;
+  const { filteredPersons, onDelete } = props;
   return (
     <>
       {filteredPersons.map((person) => (
-        <p key={person.id}>
-          {person.name} - {person.number}
-        </p>
+        <div key={person.id}>
+          <p>
+            {person.name} - {person.number}
+          </p>
+          <button onClick={() => onDelete(person.id)}>delete</button>
+        </div>
       ))}
     </>
   );
@@ -21,6 +24,7 @@ List.propTypes = {
       number: PropTypes.string,
     })
   ),
+  onDelete: PropTypes.func,
 };
 
 export { List };

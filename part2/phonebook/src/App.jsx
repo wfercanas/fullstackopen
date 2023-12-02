@@ -45,6 +45,13 @@ function App() {
     }
   }
 
+  function handleDelete(id) {
+    personsService.remove(id).then((data) => {
+      console.log(data);
+      setPersons(persons.filter((person) => person.id !== id));
+    });
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -57,7 +64,7 @@ function App() {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <List filteredPersons={filteredPersons} />
+      <List filteredPersons={filteredPersons} onDelete={handleDelete} />
     </div>
   );
 }
