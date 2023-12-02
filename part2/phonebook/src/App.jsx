@@ -1,30 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { Search } from "./components/Search";
 import { Form } from "./components/Form";
 import { List } from "./components/List";
 
 function App() {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
-  const [search, setSearch] = useState("");
+  const [persons, setPersons] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then((response) => setPersons(response.data));
+  }, []);
 
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const [search, setSearch] = useState("");
   function handleSearch(event) {
     setSearch(event.target.value);
   }
 
+  const [newName, setNewName] = useState("");
   function handleNameChange(event) {
     setNewName(event.target.value);
   }
+
+  const [newNumber, setNewNumber] = useState("");
   function handleNumberChange(event) {
     setNewNumber(event.target.value);
   }
