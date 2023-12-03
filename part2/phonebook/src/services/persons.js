@@ -14,4 +14,10 @@ function remove(id) {
   return axios.delete(`${baseURL}/${id}`).then((result) => result.data);
 }
 
-export default { getAll, create, remove };
+function update(person) {
+  return axios
+    .put(`${baseURL}/${person.id}`, person)
+    .then((result) => result.data);
+}
+
+export default { getAll, create, remove, update };

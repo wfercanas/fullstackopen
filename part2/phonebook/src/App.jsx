@@ -33,8 +33,25 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook`);
+    const person = persons.find((person) => person.name === newName);
+
+    if (person) {
+      if (
+        window.confirm(
+          `${person.name} is already added to the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const updatedPerson = { ...person, number: newNumber };
+        personsService.update(updatedPerson).then((data) => console.log(data));
+        setPersons(
+          persons.map((person) => {
+            if (person.id === updatedPerson.id) {
+              return updatedPerson;
+            }
+            return person;
+          })
+        );
+      }
     } else {
       const newPerson = { name: newName, number: newNumber };
       personsService.create(newPerson).then((data) => {
