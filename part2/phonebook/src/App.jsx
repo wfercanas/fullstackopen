@@ -46,10 +46,13 @@ function App() {
   }
 
   function handleDelete(id) {
-    personsService.remove(id).then((data) => {
-      console.log(data);
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Are you sure you wanto to delete ${person.name}?`)) {
+      personsService.remove(id).then((data) => {
+        console.log(data);
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
   }
 
   return (
