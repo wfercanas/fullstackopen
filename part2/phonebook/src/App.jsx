@@ -5,6 +5,7 @@ import personsService from "./services/persons";
 import { Search } from "./components/Search";
 import { Form } from "./components/Form";
 import { List } from "./components/List";
+import { Message } from "./components/Message";
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -27,6 +28,14 @@ function App() {
     setNewNumber(event.target.value);
   }
 
+  const [message, setMessage] = useState(null);
+  function displayMessage(newMessage) {
+    setMessage(newMessage);
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  }
+
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -42,15 +51,17 @@ function App() {
         )
       ) {
         const updatedPerson = { ...person, number: newNumber };
-        personsService.update(updatedPerson).then((data) => console.log(data));
-        setPersons(
-          persons.map((person) => {
-            if (person.id === updatedPerson.id) {
-              return updatedPerson;
-            }
-            return person;
-          })
-        );
+        personsService.update(updatedPerson).then(() => {
+          setPersons(
+            persons.map((person) => {
+              if (person.id === updatedPerson.id) {
+                return updatedPerson;
+              }
+              return person;
+            })
+          );
+          displayMessage(`Updated the phone of ${updatedPerson.name}`);
+        });
       }
     } else {
       const newPerson = { name: newName, number: newNumber };
@@ -58,6 +69,7 @@ function App() {
         setPersons([...persons, data]);
         setNewName("");
         setNewNumber("");
+        displayMessage(`Added ${data.name}`);
       });
     }
   }
@@ -75,7 +87,8 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Search value={search} onChange={handleSearch} />
+      <Message message={message} />
+      <h2>New Contact</h2>
       <Form
         handleSubmit={handleSubmit}
         newName={newName}
@@ -84,6 +97,7 @@ function App() {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
+      <Search value={search} onChange={handleSearch} />
       <List filteredPersons={filteredPersons} onDelete={handleDelete} />
     </div>
   );
