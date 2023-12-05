@@ -29,8 +29,8 @@ function App() {
   }
 
   const [message, setMessage] = useState(null);
-  function displayMessage(newMessage) {
-    setMessage(newMessage);
+  function displayMessage(content, type = "success") {
+    setMessage({ content, type });
     setTimeout(() => {
       setMessage(null);
     }, 5000);
@@ -51,17 +51,28 @@ function App() {
         )
       ) {
         const updatedPerson = { ...person, number: newNumber };
-        personsService.update(updatedPerson).then(() => {
-          setPersons(
-            persons.map((person) => {
-              if (person.id === updatedPerson.id) {
-                return updatedPerson;
-              }
-              return person;
-            })
-          );
-          displayMessage(`Updated the phone of ${updatedPerson.name}`);
-        });
+        personsService
+          .update(updatedPerson)
+          .then(() => {
+            setPersons(
+              persons.map((person) => {
+                if (person.id === updatedPerson.id) {
+                  return updatedPerson;
+                }
+                return person;
+              })
+            );
+            displayMessage(`Updated the phone of ${updatedPerson.name}`);
+          })
+          .catch(() => {
+            displayMessage(
+              `Information of ${updatedPerson.name} has already been removed from server`,
+              "error"
+            );
+            setPersons(
+              persons.filter((person) => person.id !== updatedPerson.id)
+            );
+          });
       }
     } else {
       const newPerson = { name: newName, number: newNumber };
@@ -77,9 +88,9 @@ function App() {
   function handleDelete(id) {
     const person = persons.find((person) => person.id === id);
     if (window.confirm(`Are you sure you wanto to delete ${person.name}?`)) {
-      personsService.remove(id).then((data) => {
-        console.log(data);
+      personsService.remove(id).then(() => {
         setPersons(persons.filter((person) => person.id !== id));
+        displayMessage(`${person.name} was successfully deleted`);
       });
     }
   }
