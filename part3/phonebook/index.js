@@ -24,6 +24,17 @@ const phonebook = [
   },
 ];
 
+app.get("/info", (request, response) => {
+  const date = new Date().toUTCString();
+  const length = phonebook.length;
+  const answer = `
+  <p>Phonebook has info for ${length} people.</p>
+  <p>${date}</p>
+  `;
+
+  response.send(answer);
+});
+
 app.get("/api/persons", (request, response) => {
   response.json(phonebook);
 });
