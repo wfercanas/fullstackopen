@@ -73,6 +73,28 @@ app.post("/api/persons", (request, response) => {
     });
   }
 
+  if (!body.content.name) {
+    return response.status(400).json({
+      error: "name is missing",
+    });
+  }
+
+  if (!body.content.number) {
+    return response.status(400).json({
+      error: "number is missing",
+    });
+  }
+
+  const sameContact = phonebook.find(
+    (contact) => contact.name === body.content.name
+  );
+
+  if (sameContact) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
+
   const contact = {
     name: body.content.name,
     number: body.content.number,
