@@ -6,12 +6,12 @@ function Footer() {
   };
 
   return (
-    <diV style={style}>
+    <div style={style}>
       <br />
       <em>
         Note app, Department of Computer Science, University of Helsinki 2023
       </em>
-    </diV>
+    </div>
   );
 }
 
