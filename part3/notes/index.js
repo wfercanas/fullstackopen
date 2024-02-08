@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+app.use(requestLogger);
 
 let notes = [
   {
@@ -71,6 +72,20 @@ app.post("/api/notes", (request, response) => {
 
   response.json(note);
 });
+
+function requestLogger(request, response, next) {
+  console.log("Method:", request.method);
+  console.log("path:", request.path);
+  console.log("body:", request.body);
+  console.log("---");
+  next();
+}
+
+function unknownEndpoint(request, response) {
+  response.status(404).send({ error: "Unknown Endpoint" });
+}
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 app.listen(PORT, () => {
