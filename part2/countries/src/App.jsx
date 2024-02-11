@@ -11,6 +11,10 @@ function App() {
     setSearch(e.target.value);
   }
 
+  function handleClick(country) {
+    setSearch(country);
+  }
+
   useEffect(() => {
     countriesServices.getAll().then((response) => setCountries(response.data));
   }, []);
@@ -33,7 +37,11 @@ function App() {
       </div>
       <div>
         <h1>Results</h1>
-        <CountriesList countries={filteredCountries} search={search} />
+        <CountriesList
+          countries={filteredCountries}
+          search={search}
+          onClick={handleClick}
+        />
         {filteredCountries.length === 1 && (
           <CountryDetails country={filteredCountries[0]} />
         )}

@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 
-function CountriesList({ countries }) {
+function CountriesList({ countries, onClick }) {
   if (countries.length > 10) {
     return <p>Too many matches, specify another filter</p>;
   }
-  console.log(countries);
 
   if (countries.length > 1) {
     return (
       <ul>
         {countries.map((country) => (
-          <li key={country.cca3}>{country.name.common}</li>
+          <li key={country.cca3}>
+            {country.name.common}
+            <button onClick={() => onClick(country.name.common)}>show</button>
+          </li>
         ))}
       </ul>
     );
@@ -21,6 +23,7 @@ function CountriesList({ countries }) {
 
 CountriesList.propTypes = {
   countries: PropTypes.array,
+  onClick: PropTypes.func,
 };
 
 export { CountriesList };
